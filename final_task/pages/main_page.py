@@ -1,1 +1,1 @@
-class MainPage(BasePage): pass
+class MainPage(BasePage): pass # заглушка

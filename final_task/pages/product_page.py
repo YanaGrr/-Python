@@ -1,3 +1,5 @@
+import unittest
+
 from .base_page import BasePage
 from selenium.common.exceptions import NoAlertPresentException
 from .locators import PageObjectLocators
@@ -5,16 +7,14 @@ import math
 import time
 
 # добавление товара в корзину
-class PageObject(BasePage): #класс-предок в Python указывается в скобках:
+class PageObject(BasePage):
         def add_product_to_basket(self):
             link = self.browser.find_element(*PageObjectLocators.BASKET_BUTTON)
-            link.click() #нажимаем на кнопку "Добавить в корзину"
+            link.click()
 
-# считаем результат математического выражения и вводим ответ
+# рассчет результата математического выражения и ввод ответа
         def solve_quiz_and_get_code(self):
-
             time.sleep(2)
-
             alert = self.browser.switch_to.alert
             x = alert.text.split(" ")[2]
             answer = str(math.log(abs((12 * math.sin(float(x))))))
@@ -41,7 +41,7 @@ class PageObject(BasePage): #класс-предок в Python указывае�
             TITLE_MESSAGE_TEXT_el = self.browser.find_element(*PageObjectLocators.TITLE_MESSAGE)
             TITLE_MESSAGE_TEXT = TITLE_MESSAGE_TEXT_el.text
             MESSAGE_TEXT = "Title is not equal"
-            print("текст1:", TITLE_TEXT), print("текст2:", TITLE_MESSAGE_TEXT)
+            print("текст1:", TITLE_TEXT), print("текст2:", TITLE_MESSAGE_TEXT) # чтобы видеть, что сравнивается
             assert TITLE_TEXT == TITLE_MESSAGE_TEXT, MESSAGE_TEXT
 
 # проверка, что стоимость корзины совпадает с ценой товара
@@ -51,19 +51,18 @@ class PageObject(BasePage): #класс-предок в Python указывае�
             PRICE_MESSAGE_TEXT_el = self.browser.find_element(*PageObjectLocators.PRICE_MESSAGE)
             PRICE_MESSAGE_TEXT = PRICE_MESSAGE_TEXT_el.text
             MESSAGE_TEXT = "Price is not equal"
-            print("текст3:", PRICE_TEXT), print("текст4:", PRICE_MESSAGE_TEXT)
+            print("текст3:", PRICE_TEXT), print("текст4:", PRICE_MESSAGE_TEXT)  # чтобы видеть, что сравнивается
             assert PRICE_TEXT == PRICE_MESSAGE_TEXT, MESSAGE_TEXT
 
-# абстрактный метод, который проверяет, что элемент не появляется на странице в течение заданного времени
+# проверка, что элемент не появляется на странице в течение заданного времени
         def should_not_be_success_message(self):
             assert self.is_not_element_present(*PageObjectLocators.SUCCESS_MESSAGE), \
                 "Success message is presented, but should not be"
 
-# абстрактный метод, который проверяет, что элемент исчезает на странице в течение заданного времени
+# проверка, что элемент исчезает на странице в течение заданного времени
         def should_dissapear_of_success_message(self):
             assert self.is_disappeared(*PageObjectLocators.SUCCESS_MESSAGE), \
                 "Success message is presented, but should not be"
 
 if __name__ == "__main__":
     unittest.main()
-
